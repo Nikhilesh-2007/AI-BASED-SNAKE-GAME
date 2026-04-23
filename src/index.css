@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-pixel: "Press Start 2P", system-ui, sans-serif;
+  --font-silkscreen: "Silkscreen", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-neon-magenta: #ff00ff;
+  --color-neon-cyan: #00ffff;
+  --color-dark-void: #000000;
+  --color-static-gray: #1a1a1a;
+}
+
+@layer base {
+  body {
+    @apply bg-dark-void text-neon-cyan min-h-screen overflow-hidden cursor-crosshair;
+    font-family: var(--font-silkscreen);
+    text-transform: uppercase;
+  }
+}
+
+/* Static Noise Overlay */
+.static-noise::before {
+  content: "";
+  position: fixed;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: url("https://upload.wikimedia.org/wikipedia/commons/5/52/Static_noise.png");
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 100;
+  animation: static-move 0.2s infinite steps(4);
+}
+
+@keyframes static-move {
+  0% { transform: translate(0,0); }
+  100% { transform: translate(-10%, -10%); }
+}
+
+/* Screen Tearing Animation */
+.tear-fx {
+  animation: tear 3s infinite linear alternate;
+}
+
+@keyframes tear {
+  0%, 100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+  50% { clip-path: polygon(0 2%, 100% 0, 100% 98%, 0 100%); }
+  51% { clip-path: polygon(0 0, 98% 0, 100% 100%, 2% 100%); }
+}
+
+/* Jarring Contrast Borders */
+.raw-border {
+  border: 4px solid var(--color-neon-magenta);
+  box-shadow: 8px 8px 0px var(--color-neon-cyan);
+}
+
+.glitch-btn {
+  @apply px-4 py-2 bg-neon-magenta text-black font-pixel text-[10px] relative hover:translate-x-1 hover:translate-y-1 transition-transform;
+  box-shadow: 4px 4px 0px var(--color-neon-cyan);
+}
+
+.glitch-btn:active {
+  box-shadow: 0px 0px 0px var(--color-neon-cyan);
+  @apply translate-x-1 translate-y-1;
+}
+
+/* Scanlines */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.2) 50%
+  ),
+  linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.06),
+    rgba(0, 255, 0, 0.02),
+    rgba(0, 0, 255, 0.06)
+  );
+  z-index: 101;
+  background-size: 100% 4px, 3px 100%;
+  pointer-events: none;
+}
+
+.crt-flicker {
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  50% { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
